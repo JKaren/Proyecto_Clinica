@@ -1,139 +1,148 @@
-@extends('pacientes.mantenimiento_pacientes')
+@extends('Pacientes.mantenimiento_pacientes')
 
-@section('Titulo')
-<i class="fa fa-gear fa-fw"></i>
-<a1>Mantenimiento de pacientes<a1>
-@endsection
+
 @section('Contenido')
-        <form method="POST" action="/pacientes/{{ $pacientes->dni }}" autocomplete="off">
-          {{csrf_field()}}
-          {{method_field('PUT')}}
-
+      <form role="form" method="post" action="/pacientes/{{ $pacientes->dni }}" autocomplete="off">
+            <input type="hidden" name="_token" value="{{csrf_token()}}">
             <fieldset>
 
-            <div class="text-center"><h2 align="center">Modificar pacientes</h2>
-            </div></br>
+            <div class="text-center"><h2 align="center">Agregar Paciente</h2>
+            </div>
+              @include('partials/errores')
+            </br>
 
-            <div class="form-group">
-                  <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
 
-                  <div class="col-md-6 col-xs-10">
-                      <select onclick="MostrarFormulario()" id="Tipo_pacientes" name="tipo_paciente" placeholder="Tipo pacientes" class="form-control" required>
+              <div class="input-group col-md-12 col-xs-12">
+                    <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                  <span align="center" class="col-md-6 col-xs-10 has-float-label">
+                <div align="center" class="group-control">
+                      <select onclick="MostrarFormulario()" id="Tipo_pacientes" name="tipo_paciente" placeholder="Tipo pacientes" class="form-control" >
                         <option value="ESTUDIANTE">ESTUDIANTE</option>
                         <option value="PERSONA EXTERNA" >PERSONA EXTERNA</option>
                       </select>
+                        <label>Tipo de Paciente</label>
                   </div>
-            </div></br></br>
+            </div>
 
 
             <div id='Seccion_Estudiante'>
-                <div class="form-group">
-                    <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-
-                    <div class="col-md-6 col-xs-10">
-                        <input id="Codigo" name="codigo" placeholder="Código" class="form-control">
+              <div class="input-group col-md-12 col-xs-12">
+                  <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                  <span align="center" class="col-md-6 col-xs-10 has-float-label">
+                    <div align="center" class="group-control">
+                        <input id="Codigo" name="codigo" placeholder="Código" class="form-control"  maxlength="6"value="{{$pacientes->codigo}}" readonly>
+                        <label>Código de Estudiante</label>
                     </div>
-                </div></br></br>
+                </div>
 
-                <div class="form-group">
-                    <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-
-                    <div class="col-md-6 col-xs-10">
-                        <select id="Escuela" name="escuelas_profesionales_id" placeholder="Escuela Profesional" class="form-control">
-                          @foreach($escuelas_profesionales as $escuela)
-                            <option>{{$escuela->id}}</option>
-                          @endforeach
-                        </select>
+              <div class="input-group col-md-12 col-xs-12">
+                    <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-university bigicon"></i></span>
+                    <span align="center" class="col-md-6 col-xs-10 has-float-label">
+                    <div align="center" class="group-control">
+                      <select id="Escuela" name="escuelas_profesionales_id" class="form-control">
+                        @foreach($escuelas_profesionales as $escuela)
+                          @if($escuela->id == $pacientes->escuelas_profesionales_id )
+                              <option selected value={{$escuela->id}} >{{$escuela->nombre}}</option>
+                          @else
+                            @if($escuela->estado == "HABILITADO")
+                              <option value={{$escuela->id}} >{{$escuela->nombre}}</option>
+                            @endif
+                          @endif
+                        @endforeach
+                      </select>
+                      <label>Escuela Profesional<label>
                     </div>
-                </div></br>
+                </div>
             </div>
 
             <div id="Seccion_General">
-                <div class="form-group">
-                      <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-
-                      <div class="col-md-6 col-xs-10">
-                          <input id="dni" name="dni" placeholder="DNI" class="form-control" required>
+              <div class="input-group col-md-12 col-xs-12">
+                  <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-list-alt bigicon"></i></span>
+                  <span align="center" class="col-md-6 col-xs-10 has-float-label">
+                    <div align="center" class="group-control">
+                          <input id="dni" name="dni" placeholder="Ejm. 70502321 "  class="form-control" value="{{$pacientes->dni}}" required maxlength="8" size="8" readonly>
+                          <label>DNI</label>
                       </div>
                 </div>
-                </div></br></br>
-
-                <div class="form-group">
-                      <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-lock bigicon"></i></span>
-                      <div class="col-md-6 col-xs-10">
-                          <input id="Password" type="Password" name="contraseña" placeholder="Password" class="form-control" required>
+                <div class="input-group col-md-12 col-xs-12">
+                    <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-lock bigicon"></i></span>
+                    <span align="center" class="col-md-6 col-xs-10 has-float-label">
+                      <div align="center" class="group-control">
+                        <input id="Password" name="contraseña" type=Password placeholder="********" value="{{old('contraseña')}}" class="form-control" required autocomplete="new-password">
+                        <label>Contraseña</label>
                       </div>
-                </div></br></br>
+                </div>
 
-                <div class="form-group">
-                      <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-
-                      <div class="col-md-6 col-xs-10">
-                          <input id="Nombres" name="nombres" placeholder="Nombres" class="form-control" required>
+                </div>
+                <div class="input-group col-md-12 col-xs-12">
+                    <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                    <span align="center" class="col-md-6 col-xs-10 has-float-label">
+                      <div align="center" class="group-control">
+                          <input id="Nombres" name="nombres" placeholder="Su Nombre" class="form-control" value="{{$pacientes->nombres}}" required>
+                            <label>Nombres</label>
                       </div>
-                </div></br></br>
-
-                <div class="form-group">
-                      <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-
-                      <div class="col-md-6 col-xs-10">
-                          <input id="Apellidos" name="apellidos" placeholder="Apellidos" class="form-control" required>
+                </div>
+                <div class="input-group col-md-12 col-xs-12">
+                    <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                    <span align="center" class="col-md-6 col-xs-10 has-float-label">
+                      <div align="center" class="group-control">
+                          <input id="Apellidos" name="apellidos" placeholder="Sus Apellidos" class="form-control" value="{{$pacientes->apellidos}}" required>
+                          <label>Apellidos</label>
                       </div>
-                </div></br></br>
-
-                <div class="form-group">
-                      <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-calendar bigicon"></i></span>
-
-                      <div class="col-md-6 col-xs-10">
-                          <input id="Fecha_Nacimiento" type ="date" name="fecha_nacimiento" placeholder="Fecha de Nacimiento" class="form-control" required>
+                </div>
+                <div class="input-group col-md-12 col-xs-12">
+                    <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-calendar bigicon"></i></span>
+                    <span align="center" class="col-md-6 col-xs-10 has-float-label">
+                      <div align="center" class="group-control">
+                          <input id="Fecha_Nacimiento" name="fecha_nacimiento" type ="date" class="form-control" value="{{$pacientes->fecha_nacimiento}}" required>
+                            <label>Fecha de Nacimiento</label>
                       </div>
-                </div></br></br>
-
-               <div class="form-group">
-                    <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
-
-                    <div class="col-md-6 col-xs-10">
-                        <select class="form-control" id="Sexo" name="sexo">
+                </div>
+                <div class="input-group col-md-12 col-xs-12">
+                    <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-female bigicon"></i></span>
+                    <span align="center" class="col-md-6 col-xs-10 has-float-label">
+                      <div align="center" class="group-control">
+                        <select class="form-control" id="Sexo" name="sexo" value="{{old('sexo')}}">
                           <option>MASCULINO</option>
                           <option>FEMENINO</option>
                         </select>
+                        <label>Sexo</label>
                     </div>
-              </div></br></br>
-
-
-              <div class="form-group">
-                    <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-phone bigicon"></i></span>
-
-                    <div class="col-md-6 col-xs-10">
-                        <input id="Telefono" name="telefono" placeholder="Teléfono" class="form-control" required>
+              </div>
+              <div class="input-group col-md-12 col-xs-12">
+                  <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-phone bigicon"></i></span>
+                  <span align="center" class="col-md-6 col-xs-10 has-float-label">
+                    <div align="center" class="group-control">
+                        <input id="Telefono" name="telefono" placeholder="Ejm. 984572612" title="Solo ingrese numeros." class="form-control" value="{{$pacientes->telefono}}" required maxlength="9" size="9">
+                          <label>Teléfono</label>
                     </div>
-              </div></br></br>
-
-                 <div class="form-group">
-                      <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
-
-                      <div class="col-md-6 col-xs-10">
-                          <input id="E_mail" name="correo" placeholder="E-Mail" class="form-control" required>
+              </div>
+              <div class="input-group col-md-12 col-xs-12">
+                  <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-envelope bigicon"></i></span>
+                  <span align="center" class="col-md-6 col-xs-10 has-float-label">
+                    <div align="center" class="group-control">
+                      <input id="E_mail" name="correo" placeholder="Ejm. maria_22@gmail.com"  class="form-control" value="{{$pacientes->correo}}" required>
+                      <label>E-Mail</label>
+                    </div>
+              </div>
+              <div class="input-group col-md-12 col-xs-12">
+                  <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-home bigicon"></i></span>
+                  <span align="center" class="col-md-6 col-xs-10 has-float-label">
+                    <div align="center" class="group-control">
+                          <input id="Direccion" name="direccion" placeholder="Ejm. Av. Universitaria 548" class="form-control" value="{{$pacientes->direccion}}" required>
+                          <label>Dirección</label>
                       </div>
-                </div></br></br>
+                </div>
 
-
-                <div class="form-group">
-                      <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-home bigicon"></i></span>
-
-                      <div class="col-md-6 col-xs-10">
-                          <input id="Direccion" name="direccion" placeholder="Dirección" class="form-control" required>
-                      </div>
-                </div></br></br>
-
-                <div class="form-group">
-                      <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-home bigicon"></i></span>
-
-                      <div class="col-md-6 col-xs-10">
-                          <select id="Estado" name="estado" placeholder="Estado" class="form-control">
-                              <option>Habilitado</option>
-                              <option>Deshabilitado</option>
+                <div class="input-group col-md-12 col-xs-12">
+                    <span class="col-md-1 col-xs-1 col-md-offset-2 text-center"><i class="fa fa-cog bigicon"></i></span>
+                    <span align="center" class="col-md-6 col-xs-10 has-float-label">
+                      <div align="center" class="group-control">
+                          <select id="Estado" name="estado" placeholder="Estado" class="form-control" value="{{$pacientes->estado}}">
+                              <option>HABILITADO</option>
+                              <option>INHABILITADO</option>
                           </select>
+                          <label>Estado del Paciente</label>
 
                       </div>
                 </div></br></br>
@@ -141,12 +150,36 @@
 
                 <div class="form-group">
                       <div class="col-md-12 text-center">
-                          <input type="submit" style="width:80px" class="btn btn-success" align="center" class="form-control" value="Guardar">
+                          <a data-target="#confirmar-{{ $pacientes->dni }}" data-toggle="modal" style="width:80px" class="btn btn-success" align="center" class="form-control" value="Guardar">Guardar</a>
                           <button type="reset" style="width:80px" class="btn btn-primary" align="center" class="form-control" >Limpiar</button>
 
                       </div>
+
                 </div></br></br>
             </div>
+
+
+            <div class="modal fade modal-slide-in-rigth" aria-hidden="true"
+              role="dialog" tabindex="-1" id="confirmar-{{$pacientes->dni}}">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-Label="Close">
+                        <span aria-hidden="true">X</span>
+                      </button>
+                      <h3 class="modal-title">Modificar Paciente</h3>
+                    </div>
+                    <div class="modal-body">
+                      <p>¿Esta seguro si desea modificar los datos del paciente ?</p >
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                          <button type="submit" style="width:80px" class="btn btn-success">Guardar</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
 
             </fieldset>
 

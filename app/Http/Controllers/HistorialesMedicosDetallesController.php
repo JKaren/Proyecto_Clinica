@@ -29,7 +29,8 @@ class HistorialesMedicosDetallesController extends Controller
     {
       $historial_medico = DB::table('historial_medico')->get();
       $medicos = DB::table('medicos')->get();
-        return view('historiales_medicos_detalles.create',['historial_medico'=>$historial_medico],['medicos'=>$medicos]);
+      $citas = DB::table('citas')->get();
+        return view('historiales_medicos_detalles.create',['historial_medico'=>$historial_medico,'citas'=>$citas]);
 
     }
 
@@ -41,40 +42,38 @@ class HistorialesMedicosDetallesController extends Controller
      */
     public function store(Request $request)
     {
-        $id = $request->input('Id');
+
+        $this->validate($request,[
+          'id_historial_medico_detalle'=>['required','unique:historiales_medicos_detalles'],
+          'Id_Historial'=>['required','max:20'],
+          'Estatura'=>['required','max:2000','regex:/^[0-9.]+$/'],
+          'Peso'=>['required','max:2000','regex:/^[0-9.]+$/'],
+          'Presion'=>['required','max:200','regex:/^[0-9.]+$/'],
+          'Descripcion'=>['required','max:4000','regex:/^[0-9A-Za-z ]+$/'],
+          'IdCita'=>['required']
+        ]);
+
+        $id_historial_medico = $request->input('id_historial_medico_detalle');
+        $id_historial = $request->input('Id_Historial');
         $estatura = $request->input('Estatura');
         $peso = $request->input('Peso');
         $presion = $request->input('Presion');
-        $fecha = $request->input('Fecha');
-        $medicos_dni = $request->input('Medicos_DNI');
+        $descripcion = $request->input('Descripcion');
+        $id_cita = $request->input('IdCita');
 
-      $historial_medico = DB::table('historial_medico')->get();
-      foreach($historial_medico as $historial)
-      {
-        if($id==$historial->id_historial_medico){
-          $id = $historial->id_historial_medico;
-        }
-      }
-
-      $medicos = DB::table('medicos')->get();
-      foreach($medicos as $medico)
-      {
-        if($medicos_dni==$medico->dni){
-        $medicos_dni = $medico->dni;
-        }
-      }
 
       DB::table('historiales_medicos_detalles')->insert([
-      'id_historial_medico'=> $id,
+      'id_historial_medico'=> $id_historial_medico,
+      'id_historial'=> $id_historial,
       'estatura'=>$estatura,
       'peso'=>$peso,
       'presion'=>$presion,
-      'fecha'=>$fecha,
-      'medicos_dni'=>$medicos_dni,
+      'descripcion'=>$descripcion,
+      'id_cita'=>$id_cita
 
     ]);
 
-    return redirect('historiales_medicos_detalles');
+    return redirect('historial_medico');
 
     }
 
@@ -98,7 +97,7 @@ class HistorialesMedicosDetallesController extends Controller
     public function edit($id)
     {
 
-      $historiales_medicos_detalles = DB::table('historiales_medicos_detalles')->where('id_historial_medico',$id)->first();
+      $historiales_medicos_detalles = DB::table('historiales_medicos_detalles')->where('id_cita',$id)->first();
       $historial_medico= DB::table('historial_medico')->get();
       $medicos = DB::table('medicos')->get();
       return view('historiales_medicos_detalles.edit',['historiales_medicos_detalles'=>$historiales_medicos_detalles,'historial_medico'=>$historial_medico,'medicos'=>$medicos]);
@@ -115,39 +114,31 @@ class HistorialesMedicosDetallesController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+
+      $this->validate($request,[
+        'Estatura'=>['required','regex:/^[0-9.]+$/'],
+        'Peso'=>['required','regex:/^[0-9.]+$/'],
+        'Presion'=>['required','regex:/^[0-9.]+$/'],
+        'Descripcion'=>['required','regex:/^[0-9A-Za-z ]+$/']
+      ]);
       $estatura = $request->input('Estatura');
       $peso = $request->input('Peso');
       $presion = $request->input('Presion');
-      $fecha = $request->input('Fecha');
-      $medicos_dni = $request->input('Medicos_DNI');
+      $detalle = $request->input('Descripcion');
+      $historial_medico = DB::table('historial_medico')->get();
+      $id_historial_medico = $request->input('Id_Historial');
 
-    $historial_medico = DB::table('historial_medico')->get();
-    foreach($historial_medico as $historial)
-    {
-      if($id==$historial->id_historial_medico){
-        $id = $historial->id_historial_medico;
-      }
-    }
 
-    $medicos = DB::table('medicos')->get();
-    foreach($medicos as $medico)
-    {
-      if($medicos_dni==$medico->dni){
-      $medicos_dni = $medico->dni;
-      }
-    }
+      DB::table('historiales_medicos_detalles')->where('id_cita',$id)
+        ->update([
+      'estatura'=>$estatura,
+      'peso'=>$peso,
+      'presion'=>$presion,
+      'descripcion'=>$detalle,
+      ]);
 
-    DB::table('historiales_medicos_detalles')->where('id_historial_medico',$id)
-      ->update([
-    'estatura'=>$estatura,
-    'peso'=>$peso,
-    'presion'=>$presion,
-    'fecha'=>$fecha,
-    'medicos_dni'=>$medicos_dni,
-
-  ]);
-
-  return redirect('historiales_medicos_detalles');
+      return redirect('historial_medico');
 
     }
 
@@ -160,6 +151,6 @@ class HistorialesMedicosDetallesController extends Controller
     public function destroy($id)
     {
       DB::table('historiales_medicos_detalles')->where('id_historial_medico',$id)->delete();
-    return redirect('historiales_medicos_detalles');
+      return redirect('historiales_medicos_detalles');
     }
 }

@@ -1,0 +1,53 @@
+<div class="header wow zoomIn">
+	<div class="container">
+		<div class="header_left" data-wow-duration="2s" data-wow-delay="0.5s">
+			<ul>
+				<li><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>+123 456 7890</li>
+				<li><a href="mailto:info@example.com"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>clinica@unsaac.edu.pe</a></li>
+			</ul>
+		</div>
+		<div class="header_right">
+			<div class="login">
+				<ul>
+
+
+					@if (Auth::guest())
+							<li><a href="#" data-toggle="modal" data-target="#myModal4"><span class="glyphicon glyphicon-user" 		aria-hidden="true"></span>Iniciar sesión</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#myModal5"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Regístrate</a></li>
+					@else
+
+							<li class="dropdown">
+
+									<a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+											{{$user_name}} <span class="caret"></span>
+									</a>
+
+									<ul class="dropdown-menu" role="menu">
+											<li>
+													<a href="{{ url('/logout') }}"
+															onclick="event.preventDefault();
+																			 document.getElementById('logout-form').submit();">
+															Logout
+													</a>
+
+													<form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+															{{ csrf_field() }}
+													</form>
+											</li>
+											<li><h1>gg</h1></li>
+											<li><h1>gg</h1></li>
+											<li><h1>gg</h1></li>
+											<li><h1>gg</h1></li>
+											<li><h1>gg</h1></li>
+											<li><h1>gg</h1></li>
+									</ul>
+							</li>
+					@endif
+
+				</ul>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>

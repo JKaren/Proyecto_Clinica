@@ -40,17 +40,24 @@ class EscuelasProfesionalesController extends Controller
      */
     public function store(Request $request)
     {
-      $id = $request->input('id');
-    $nombre = $request->input('nombre');
 
-    DB::table('escuelas_profesionales')->insert([
-      'id'=> $id,
-      'nombre'=>$nombre
-      ]);
+        $this->validate($request,[
+          'id'=>['required','unique:escuelas_profesionales','size:2','regex:/^[A-Z]+$/'],
+          'nombre'=>['required','max:50','min:3','regex:/^[A-Za-z ]+$/']
+        ]);
+        $id = $request->input('id');
+        $nombre = $request->input('nombre');
+        $estado = $request->input('estado');
 
-      return $this->index();
+        DB::table('escuelas_profesionales')->insert([
+        'id'=> $id,
+        'nombre'=>$nombre,
+        'estado'=>$estado
+        ]);
 
-      return redirect('escuelas_profesionales');
+        //return $this->index();
+
+        return redirect('escuelas_profesionales');
     }
 
     /**
@@ -86,15 +93,19 @@ class EscuelasProfesionalesController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $id = $request->input('id');
-  $nombre = $request->input('nombre');
 
-  DB::table('escuelas_profesionales')->where('id',$id)
-    ->update([
-    'id'=> $id,
-    'nombre'=>$nombre
-  ]);
-  return redirect('escuelas_profesionales');
+      $this->validate($request,[
+        'nombre'=>['required','max:50','min:3','regex:/^[A-Za-z ]+$/']
+      ]);
+      $nombre = $request->input('nombre');
+      $estado = $request->input('estado');
+
+      DB::table('escuelas_profesionales')->where('id',$id)
+        ->update([
+        'nombre'=>$nombre,
+        'estado'=>$estado
+      ]);
+      return redirect('escuelas_profesionales');
     }
 
     /**
@@ -105,7 +116,12 @@ class EscuelasProfesionalesController extends Controller
      */
     public function destroy($id)
     {
-      DB::table('escuelas_profesionales')->where('id',$id)->delete();
+      $escuela_profesional = DB::table('escuelas_profesionales')->where('id',$id)->first();
+      $estado = 'INHABILITADO';
+      if($escuela_profesional->estado == 'INHABILITADO'){
+        $estado = 'HABILITADO';
+      }
+      DB::table('escuelas_profesionales')->where('id',$id)->update(['estado'=>$estado]);
       return redirect('escuelas_profesionales');
     }
 }

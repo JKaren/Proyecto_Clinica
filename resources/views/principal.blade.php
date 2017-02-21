@@ -1,378 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Proyecto</title>
-   <link href={{ URL::asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }} rel="stylesheet">
-    <link href={{ URL::asset('bower_components/metisMenu/dist/metisMenu.min.css') }} rel="stylesheet">
-    <link href={{ URL::asset('dist/css/sb-admin-2.css') }} rel="stylesheet">
-    <link href={{ URL::asset('bower_components/font-awesome/css/font-awesome.min.css') }} rel="stylesheet" type="text/css">
+
+    <title>Clinica UNSAAC | </title>
+
+    <!-- Bootstrap -->
+    <link href={{ URL::asset("css/bootstrap.min.css") }} rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href={{ URL::asset("css/font-awesome.min.css") }} rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href={{ URL::asset("css/custom.min.css") }} rel="stylesheet">
+    <!--float label-->
+    <link href={{ URL::asset("css/float_label.css") }} rel="stylesheet">
+
     @yield('estilos')
-</head>
 
-<body>
+  </head>
 
-    <div id="wrapper">
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/home">PROYECTO</a>
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="/" class="site_title"><i class="fa fa-user-md"></i> <span>Clinica UNSAAC</span></a>
             </div>
-            <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-messages">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>REMITENTE</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>FECHA</em>
-                                    </span>
-                                </div>
-                                <div>Mensaje de prueba ...</div>
-                            </a>
-                        </li>
 
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>REMITENTE 2</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>FECHA</em>
-                                    </span>
-                                </div>
-                                <div>Mensaje de prueba 2 ...</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-tasks">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Tarea 1</strong>
-                                        <span class="pull-right text-muted">40% Completa</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Tarea 2</strong>
-                                        <span class="pull-right text-muted">20% Completa</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                            <span class="sr-only">20% Complete</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Tarea 3</strong>
-                                        <span class="pull-right text-muted">60% Completa</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                            <span class="sr-only">60% Complete (warning)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Tarea 4</strong>
-                                        <span class="pull-right text-muted">80% Completa</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                            <span class="sr-only">80% Complete (danger)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>Ver todas las tareas</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> Nuevo Comentario
-                                    <span class="pull-right text-muted small">hace 4 minutos</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 Nuevos Seguidores
-                                    <span class="pull-right text-muted small">hace 12 minutos</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> Mensaje enviado
-                                    <span class="pull-right text-muted small">hace 4 minutos</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-tasks fa-fw"></i> Nueva Tarea
-                                    <span class="pull-right text-muted small">hace 4 minutoso</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-upload fa-fw"></i> Servidor Reiniciado
-                                    <span class="pull-right text-muted small">hace 4 minutos</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>Ver todas las Alertas</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil de Usuario</a>
-                        </li>
-                        <li><a href="configuracion"><i class="fa fa-gear fa-fw"></i> Configuraciones</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="login"><i class="fa fa-sign-out fa-fw"></i> Cerrar Sesión</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Buscar...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </li>
-                        <li>
-                        <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Mantenimientos<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="/pacientes"> Mantenimiento Pacientes</a>
-                                </li>
-                                <li>
-                                    <a href="/medicos"> Mantenimiento Medicos</a>
-                                </li>
-                                <li>
-                                    <a href="/consultorios"> Mantenimiento Consultorios</a>
-                                </li>
-                                <li>
-                                    <a href="/especialidades"> Mantenimiento Especialidades </a>
-                                </li>
-                                <li>
-                                    <a href="/historial_medico"> Mantenimiento Historial Medico</a>
-                                </li>
-                                <li>
-                                    <a href="/historiales_medicos_detalles"> Mantenimiento Historial Medico detelles</a>
-                                </li>
-                                <li>
-                                    <a href="/escuelas_profesionales"> Mantenimiento Escuelas Profecionales </a>
-                                </li>
-                                <li>
-                                    <a href="/sanciones"> Mantenimiento Sanciones </a>
-                                </li>
-                                <li>
-                                    <a href="/citas"> Mantenimiento Citas </a>
-                                </li>
-                                <li>
-                                    <a href="/horarios"> Mantenimiento Horarios </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+            <div class="clearfix"></div>
 
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
-                </div>
+            <!-- menu profile quick info -->
+
+            <div class="profile clearfix">
+              <div class="profile_pic">
+                <img src={{ URL::asset("images/img.jpg")}} alt="..." class="img-circle profile_img">
+              </div>
+              <div class="profile_info">
+                <span>Bienvenido</span>
+                <h2>  {{ Auth::user()->name }}</h2>
+              </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">26</div>
-                                    <div>New Comments!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
-                                    <div>New Tasks!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-yellow">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-shopping-cart fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
-                                    <div>New Orders!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-red">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-support fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
-                                    <div>Support Tickets!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+            <!-- /menu profile quick info -->
+
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <h3> </h3>
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="/inicio" class="btn btn-info btn-xx">INICIO</a></li>
+                      <li><a href="/about" class="btn btn-info btn-xx">SOBRE NOSOTROS</a></li>
+                      <li><a href="/gallery" class="btn btn-info btn-xx">ESPECIALIDADES</a></li>
+                      <li><a href="/contac" class="btn btn-info btn-xx">CONTACTOS</a></li>
+                    </ul>
+                  </li>
+
+                  @if( Auth::user()->tipo=='Admi' )
+                  <li><a><i class="fa fa-desktop"></i> Procesos Administrador<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                    <li><a href="/reservas_admi" class="btn btn-danger btn-xx">Reservar Cita</a></li>
+                      <li><a href="/medhorarios" class="btn btn-danger btn-xx">Horario Medico</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-table"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                       <li>
+                                    <a href="/pacientes" class="btn btn-success btn-xx"> Mantenimiento Pacientes</a>
+                                </li>
+                                <li>
+                                    <a href="/medicos" class="btn btn-success btn-xx"> Mantenimiento Medicos</a>
+                                </li>
+                                <li>
+                                    <a href="/consultorios" class="btn btn-success btn-xx"> Mantenimiento Consultorios</a>
+                                </li>
+                                <li>
+                                    <a href="/especialidades" class="btn btn-success btn-xx"> Mantenimiento Especialidades </a>
+                                </li>
+                                <li>
+                                    <a href="/historial_medico" class="btn btn-success btn-xx"> Mantenimiento Historial Médico</a>
+                                </li>
+                                <li>
+                                    <a href="/escuelas_profesionales" class="btn btn-success btn-xx"> Mantenimiento Escuelas Profesionales </a>
+                                </li>
+                                <li>
+                                    <a href="/sanciones" class="btn btn-success btn-xx"> Mantenimiento Sanciones </a>
+                                </li>
+                                <li>
+                                    <a href="/citas" class="btn btn-success btn-xx"> Mantenimiento Citas </a>
+                                </li>
+                                <li>
+                                    <a href="/tipo_sancion" class="btn btn-success btn-xx"> Mantenimiento Tipo Sanción</a>
+                                </li>
+                    </ul>
+                  </li>
+                  @endif
+                  <li><a><i class="fa fa-bar-chart-o"></i> Reportes <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+
+                      <li><a href="/PacientesAtendidosEspecialida" class="btn btn-warning btn-xx">VER Pacientes Atendidos por Especialidad</a></li>
+                      <li><a href="/CitasPorMedico" class="btn btn-warning btn-xx">VER Citas Por medico</a></li>
+                      <li><a href="/CitasConsulEspeci" class="btn btn-warning btn-xx">VER Citas  Por Consultorio y Especialidad</a></li>
+                      <li><a href="/CitasCanceladas" class="btn btn-warning btn-xx">VER Citas  Canceladas</a></li>
+
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+
+
             </div>
-            <div class="row">
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+              <ul class="nav navbar-nav navbar-right">
+                @if (Auth::guest())
+                    <li><a href="{{ url('/login') }}">Login</a></li>
+                    <li><a href="{{ url('/register') }}">Register</a></li>
+                @else
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            {{ Auth::user()->name }} <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                          <li>
+                              <a href="{{ url('/logout') }}"
+                                  onclick="event.preventDefault();
+                                           document.getElementById('logout-form').submit();">
+                                  Cerrar sesion
+                              </a>
+
+                              <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                  {{ csrf_field() }}
+                              </form>
+                          </li>
+
+                        </ul>
+                    </li>
+                @endif
+
+
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <!-- top tiles -->
+          <div class="row tile_count">
+
+          </div>
+          <!-- /top tiles -->
+            <div class="row" style="padding-left: 30px">
                 @yield('Mantenimiento')
             </div>
-        </div>
+      </div>
     </div>
 
-    <script src={{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}></script>
-    <script src={{ URL::asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}></script>
-    <script src={{ URL::asset('bower_components/metisMenu/dist/metisMenu.min.js') }}></script>
-    @yield('js')
-    <script src={{ URL::asset('dist/js/sb-admin-2.js') }}></script>
+    <!-- jQuery -->
+    <script src={{ URL::asset("js/jquery.min.js") }}></script>
+    <!-- Bootstrap -->
+    <script src={{ URL::asset("js/bootstrap.min.js") }}></script>
+    <!-- FastClick -->
+    <!-- Custom Theme Scripts -->
+    <script src={{ URL::asset("js/custom.min.js") }}></script>
+     @yield('js')
+
     @yield('js_scripts')
-
-</body>
-
+    <!-- /gauge.js -->
+  </body>
 </html>

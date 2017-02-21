@@ -10,24 +10,21 @@
     <script src={{ URL::asset('bower_components/datatables-responsive/css/dataTables.responsive.css') }}></script>
 @endsection
 
-@section('Titulo')
-<i class="fa fa-gear fa-fw"></i>
-<a1>Mantenimiento de Historial Médico<a1>
-@endsection
+
 
 @section('Contenido')
         <div class="dataTable_wrapper table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Cirugias</th>
-                                            <th>Alergias</th>
-                                            <th>Antecedentes</th>
-                                            <th>Tipo Sangre</th>
-                                            <th>DNI Pacientes</th>
-                                            <th>Fecha Apertura</th>
-                                            <th>Operaciones</th>
+                                        <tr bgcolor=#26B99A>
+                                          <th><font color="white">Código de Historial Médico</font></th>
+                                          <th><font color="white">D.N.I.</font></th>
+                                          <th><font color="white">Cirugias</font></th>
+                                          <th><font color="white">Alergias</font></th>
+                                          <th><font color="white">Antecedentes</font></th>
+                                          <th><font color="white">Tipo Sangre</font></th>
+                                          <th><font color="white">Fecha Apertura</font></th>
+                                          <th><font color="white">Operaciones</font></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -36,24 +33,20 @@
 
                                         <tr class="odd gradeA" rol="row">
                                             <td>{{ $historial_medico-> id_historial_medico }}</td>
+                                            <td>{{ $historial_medico-> pacientes_dni }}</td>
                                             <td>{{ $historial_medico-> cirugias}}</td>
                                             <td>{{ $historial_medico-> alergias }}</td>
                                             <td>{{ $historial_medico-> antecedentes }}</td>
                                             <td>{{ $historial_medico-> tipo_sangre }}</td>
-                                            <td>{{ $historial_medico-> pacientes_dni }}</td>
                                             <td>{{ $historial_medico-> fecha_apertura }}</td>
 
                                             <td align="center">
-                                                <button type="button" class="btn btn-success btn-xs"
+                                                <button type="button" style="height:30px" class="btn btn-info btn-xs"
+                                                onClick="location.href='/historial_medico/{{ $historial_medico->id_historial_medico }}'">
+                                                Ver Detalles</button>
+                                                <button type="button" style="height:30px" class="btn btn-success btn-xs"
                                                 onClick="location.href='/historial_medico/{{ $historial_medico->id_historial_medico }}/edit'">
                                                 Editar</button>
-
-
-                                                  <form action="/historial_medico/{{ $historial_medico->id_historial_medico }}" method="post">
-                                                    {{ csrf_field() }}
-                                                    {{ method_field('DELETE')}}
-                                                    <button class="btn btn-danger btn-xs">Eliminar</button>
-                                                  </form>
 
                                             </td>
                                         </tr>

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -25,15 +26,23 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/inicio';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
+     public function username()
+     {
+         return 'dni';
+     }
+
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+    public function getname(){
+      return Auth::user()->tipo;
     }
 }

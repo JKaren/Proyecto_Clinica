@@ -3,25 +3,16 @@
 @section('Mantenimiento')
 <div class="col-lg-12">
     <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading" style="height:60px;">
               @yield('Titulo')
-            <div class="pull-right">
+              <div class="pull-right">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                        Acciones
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu pull-right" role="menu">
-                        <li><a type="button" href='/escuelas_profesionales/create'>Agregar Escuela Profesional</a>
-                        </li>
-                        <li><a type="button" href='/escuelas_profesionales'>Editar/Eliminar</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a>
-                        </li>
-                    </ul>
+                  <button type="button" class="btn btn-primary btn-md"
+                  onClick="location.href='/escuelas_profesionales/create'">NUEVA ESCUELA PROFESIONAL</button>
+                  <button type="button" class="btn btn-info btn-md"
+                  onClick="location.href='/escuelas_profesionales'">INDICE</button>
                 </div>
-            </div>
+              </div>
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">

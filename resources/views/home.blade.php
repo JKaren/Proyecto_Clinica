@@ -1,22 +1,17 @@
-@extends('principal')
+@extends('layouts.app')
 
-@section('estilos')
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Dashboard</div>
 
-@endsection
-
-@section('Titulo')
-      <i class="fa fa-gear fa-fw"></i>
-      <a1>Pagina Principal<a1>
-@endsection
-
-@section('Contenido')
-
-@endsection
-
-@section('js')
-
-@endsection
-
-@section('js_scripts')
-
+                <div class="panel-body">
+                    You are logged in!
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

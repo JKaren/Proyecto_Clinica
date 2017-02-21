@@ -10,11 +10,7 @@ use Illuminate\Support\Facades\DB;
 class EspecialidadesController extends Controller
 {
     public $item_id='codigo';
-     public $item=[
-     'nombre',
-     'habilitado',
-     'consultorios_id'
-     ];
+    public $item=['nombre','habilitado','consultorios_id'];
 
      public $tabla='especialidades';
      public $tabla1='consultorios';
@@ -30,8 +26,12 @@ class EspecialidadesController extends Controller
     }
 
     public function store(Request $request){
+      $this->validate($request,[
+        'codigo'=>['required','unique:especialidades','size:3','regex:/^[A-Z]+$/'],
+        'nombre'=>['required','max:100','min:3','regex:/^[A-Z]+$/'],
+        'habilitado'=>['required','in:HABILITADO,INHABILITADO']
+      ]);
         $aux[$this->item_id]=$request->input($this->item_id);
-
         foreach ($this->item as $it) {
           if(!is_null($it))
           $aux[$it]=$request->input($it);
@@ -55,7 +55,10 @@ class EspecialidadesController extends Controller
     }
 
     public function update(Request $request, $id){
-
+      $this->validate($request,[
+        'nombre'=>['required','max:100','min:3','regex:/^[A-Z ]+$/'],
+        'habilitado'=>['required','in:HABILITADO,INHABILITADO']
+      ]);
       foreach ($this->item as $it) {
         if(!is_null($it))
         $aux[$it]=$request->input($it);
@@ -65,7 +68,12 @@ class EspecialidadesController extends Controller
     }
 
     public function destroy($id)    {
-      DB::table($this->tabla)->where($this->item_id,$id)->delete();
-      return redirect($this->tabla);
+        $especialidad = DB::table($this->tabla)->where($this->item_id,$id)->first();
+        $habilitado = 'INHABILITADO';
+        if($especialidad->habilitado == 'INHABILITADO'){
+          $habilitado = 'HABILITADO';
+        }
+        DB::table($this->tabla)->where($this->item_id,$id)->update(['habilitado'=>$habilitado]);
+        return redirect($this->tabla);
     }
 }

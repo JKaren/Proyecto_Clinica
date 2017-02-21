@@ -10,27 +10,24 @@
     <script src={{ URL::asset('bower_components/datatables-responsive/css/dataTables.responsive.css') }}></script>
 @endsection
 
-@section('Titulo')
-<i class="fa fa-gear fa-fw"></i>
-<a1>Mantenimiento de Pacientes<a1>
-@endsection
+
 
 @section('Contenido')
         <div class="dataTable_wrapper table-responsive">
             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                 <thead>
-                    <tr>
-                        <th>DNI</th>
-                        <th>Tipo de paciente</th>
-                        <th>Código</th>
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th>Telefono</th>
-                        <th>Dirección</th>
-                        <th>Email</th>
-                        <th>Carrera Profesional</th>
-                        <th>Estado</th>
-                        <th>Operaciones</th>
+                    <tr bgcolor="26b99a">
+                        <th><font color="white">DNI</font></th>
+                        <th><font color="white">Tipo Paciente</font></th>
+                        <th><font color="white">Código</font></th>
+                        <th><font color="white">Nombres</font></th>
+                        <th><font color="white">Apellidos</font></th>
+                        <th><font color="white">Telefono</font></th>
+                        <th><font color="white">Dirección</font></th>
+                        <th><font color="white">Email</font></th>
+                        <th><font color="white">Carrera Profecional</font></th>
+                        <th><font color="white">Estado</font></th>
+                        <th><font color="white">Operaciones</font></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,26 +47,59 @@
                         <td>{{ $paciente-> estado }}</td>
 
                         <td align="center">
-                            <button type="button" class="btn btn-success btn-xs"
-                            onClick="location.href='/pacientes/{{ $paciente->dni }}/edit'">
-                            Editar</button>
+                            <button style="width:77px"  type="button" class="btn btn-success btn-sm"
+                            onClick="location.href='#confirmar-/pacientes/{{ $paciente->dni }}/edit'">   Editar   </button>
+                            <br>
+                            @if($paciente->estado =='HABILITADO')
+                                <button data-target="{{$paciente->dni }}"  data-toggle="modal" class="btn btn-danger btn-sm"
+                                onClick="location.href='/pacientes/{{ $paciente->dni }}/inhabilitar'">   Inhabilitar   </button>
+                            @else
+                                <button data-target="{{$paciente->dni }}"  style="width:80px"data-toggle="modal" class="btn btn-warning btn-sm"
+                                onClick="location.href='/pacientes/{{ $paciente->dni }}/habilitar'">   Habilitar   </button>
 
+                            @endif
 
-                              <form action="/pacientes/{{ $paciente->dni }}" method="post">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE')}}
-                                <button class="btn btn-danger btn-xs">Eliminar</button>
-                              </form>
                         </td>
                     </tr>
+                    <div class="modal fade modal-slide-in-rigth" aria-hidden="true"
+                      role="dialog" tabindex="-1" id="confirmar-{{$paciente->dni}}">
+                      <form action="/pacientes/{{ $paciente->dni }}" method="post">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-Label="Close">
+                                <span aria-hidden="true">X</span>
+                              </button>
+                              <h3 class="modal-title">Estado del Paciente</h3>
+                            </div>
 
+                            <div class="modal-body">
+                              @if($paciente->estado == 'HABILITADO')
+                                <p>Esta seguro que desea INHABILITAR el Paciente</p>
+                              @else
+                                <p>Esta seguro que desea HABILITAR el Paciente</p>
+                              @endif
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                  {{ csrf_field() }}
+                                  {{ method_field('DELETE')}}
+                                <button type="submit" style="width:80px" class="btn btn-success">Si</button>
+
+                            </div>
+                          </div>
+                        </div>
+                        </form>
+                    </div>
+
+                </div>
                 @endforeach
-
-
-
                 </tbody>
             </table>
-        </div>
+
+
+
 @endsection
 
 @section('js')

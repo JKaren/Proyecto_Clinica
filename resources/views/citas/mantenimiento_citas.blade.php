@@ -3,25 +3,17 @@
 @section('Mantenimiento')
 <div class="col-lg-12">
     <div class="panel panel-default">
-        <div class="panel-heading">
-              @yield('Titulo')
-            <div class="pull-right">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                        Acciones
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu pull-right" role="menu">
-                        <li><a type="button" href='/citas/create'>Agregar cita</a>
-                        </li>
-                        <li><a type="button" href='/citas'>Editar/Eliminar</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+      <div class="panel-heading" style="height:60px;">
+         <i class="fa fa-gear fa-fw"></i>
+         <a1 class="titulo"><font size=5>Mantenimiento de Citas</font><a1>
+           <div class="pull-right">
+             <div class="btn-group">
+               <button type="button" class="btn btn-primary btn-md"
+                 onClick="location.href='/citas/create'">NUEVA CITA</button>
+               <button type="button" class="btn btn-info btn-md"
+                 onClick="location.href='/citas'">INDICE</button>
+             </div>
+           </div>
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">

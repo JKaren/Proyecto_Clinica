@@ -20,7 +20,8 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
+                                            <th>Id Historial Medico Detalle</th>
+                                            <th>Id Historial</th>
                                             <th>Estatura</th>
                                             <th>Peso</th>
                                             <th>Presión</th>
@@ -35,6 +36,7 @@
 
                                         <tr class="odd gradeA" rol="row">
                                             <td>{{ $historial_medico_detalle-> id_historial_medico}}</td>
+                                            <td>{{ $historial_medico_detalle-> id_historial}}</td>
                                             <td>{{ $historial_medico_detalle-> estatura }}</td>
                                             <td>{{ $historial_medico_detalle-> peso }}</td>
                                             <td>{{ $historial_medico_detalle-> presion }}</td>

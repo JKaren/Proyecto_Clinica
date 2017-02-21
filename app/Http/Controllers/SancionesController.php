@@ -17,7 +17,7 @@ class SancionesController extends Controller
      */
     public function index()
     {
-      $sanciones = DB::table('sanciones')->get();
+      $sanciones = DB::table('sancion')->get();
       return view('sanciones.index',['sanciones'=>$sanciones]);
     }
 
@@ -28,7 +28,9 @@ class SancionesController extends Controller
      */
     public function create()
     {
-        return view('sanciones.create');
+        $t1 = DB::table('citas')->get();
+        $t2 = DB::table('tipo_sancion')->get();
+        return view('sanciones.create',['citas'=>$t1,'tipo_sancion'=>$t2]);
     }
 
     /**
@@ -39,12 +41,19 @@ class SancionesController extends Controller
      */
     public function store(Request $request)
     {
-      $id = $request->input('Id');
-      $descripcion = $request->input('Descripcion');
+      $this->validate($request,[
+        'id_cita'=>['required','unique:sanciones','numeric'],
+        'id_sancion'=>['required'],
+        'fecha_sancion'=>['required','date']
+      ]);
+      $id_sancion = $request->input('id_sancion');
+      $id_cita = $request->input('id_cita');
+      $fecha_sancion = $request->input('fecha_sancion');
 
-      DB::table('sanciones')->insert([
-        'id'=> $id,
-        'descripcion'=>$descripcion,
+      DB::table('sancion')->insert([
+        'id_sancion'=> $id_sancion,
+        'id_cita'=> $id_cita,
+        'fecha_sancion'=>$fecha_sancion,
       ]);
 
       return redirect('sanciones');
@@ -69,8 +78,10 @@ class SancionesController extends Controller
      */
     public function edit($id)
     {
-      $sanciones = DB::table('sanciones')->where('id',$id)->first();
-      return view('sanciones.edit',['sanciones'=>$sanciones]);
+      $t1 = DB::table('citas')->get();
+      $t2 = DB::table('tipo_sancion')->get();
+      $sanciones = DB::table('sancion')->where('id_sancion',$id)->first();
+      return view('sanciones.edit',['sanciones'=>$sanciones,'citas'=>$t1,'tipo_sancion'=>$t2]);
     }
 
     /**
@@ -82,26 +93,18 @@ class SancionesController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $descripcion = $request->input('Descripcion');
-
-      DB::table('sanciones')->where('id',$id)
+      $this->validate($request,[
+        'id_cita'=>['required'],
+        'id_sancion'=>['required'],
+        'fecha_sancion'=>['required','date']
+      ]);
+      $fecha_sancion= $request->input('fecha_sancion');
+      DB::table('sancion')->where('id_sancion',$id)
         ->update([
-      'descripcion'=>$descripcion,
+      'fecha_sancion'=>$fecha_sancion,
       ]);
 
       return redirect('sanciones');
 
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-      DB::table('sanciones')->where('id',$id)->delete();
-    return redirect('sanciones');
     }
 }

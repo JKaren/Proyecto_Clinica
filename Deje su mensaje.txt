@@ -1,0 +1,310 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema bd_clinica
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema bd_clinica
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `bd_clinica` DEFAULT CHARACTER SET utf8 ;
+USE `bd_clinica` ;
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`consultorios`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`consultorios` (
+  `id` CHAR(3) NOT NULL,
+  `ubicacion` CHAR(20) NOT NULL,
+  `estado` VARCHAR(15) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`especialidades`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`especialidades` (
+  `codigo` CHAR(3) NOT NULL,
+  `nombre` VARCHAR(100) NOT NULL,
+  `habilitado` VARCHAR(12) CHARACTER SET 'utf8' NOT NULL,
+  `consultorios_id` CHAR(3) NOT NULL,
+  PRIMARY KEY (`codigo`),
+  INDEX `fk_especialidades_consultorios1_idx` (`consultorios_id` ASC),
+  CONSTRAINT `fk_especialidades_consultorios1`
+    FOREIGN KEY (`consultorios_id`)
+    REFERENCES `bd_clinica`.`consultorios` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`medicos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`medicos` (
+  `dni` CHAR(8) NOT NULL,
+  `contraseña` VARCHAR(30) NOT NULL,
+  `codigo` CHAR(6) NOT NULL,
+  `nombres` VARCHAR(100) NOT NULL,
+  `apellidos` VARCHAR(100) NOT NULL,
+  `fecha_nacimiento` DATE NOT NULL,
+  `sexo` VARCHAR(9) NOT NULL,
+  `telefono` CHAR(9) NULL DEFAULT NULL,
+  `correo` VARCHAR(50) NOT NULL,
+  `direccion` VARCHAR(100) NOT NULL,
+  `especialidades_codigo` CHAR(3) NOT NULL,
+  `estado` VARCHAR(15) NOT NULL,
+  PRIMARY KEY (`dni`),
+  INDEX `fk_medicos_especialidades1_idx` (`especialidades_codigo` ASC),
+  CONSTRAINT `fk_medicos_especialidades1`
+    FOREIGN KEY (`especialidades_codigo`)
+    REFERENCES `bd_clinica`.`especialidades` (`codigo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`bloques`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`bloques` (
+  `idbloques` VARCHAR(12) NOT NULL,
+  `hora_inicio` INT(11) NOT NULL,
+  `dia` VARCHAR(15) NOT NULL,
+  `medicos_dni` CHAR(8) NOT NULL,
+  `estado` VARCHAR(13) NOT NULL,
+  `idespecialidad` VARCHAR(45) NULL,
+  `especialidades_codigo` CHAR(3) NOT NULL,
+  PRIMARY KEY (`idbloques`),
+  INDEX `fk_bloques_medicos1_idx` (`medicos_dni` ASC),
+  INDEX `fk_bloques_especialidades1_idx` (`especialidades_codigo` ASC),
+  CONSTRAINT `fk_bloques_medicos`
+    FOREIGN KEY (`medicos_dni`)
+    REFERENCES `bd_clinica`.`medicos` (`dni`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_bloques_especialidades`
+    FOREIGN KEY (`especialidades_codigo`)
+    REFERENCES `bd_clinica`.`especialidades` (`codigo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`escuelas_profesionales`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`escuelas_profesionales` (
+  `id` CHAR(2) NOT NULL,
+  `nombre` VARCHAR(50) NOT NULL,
+  `estado` VARCHAR(13) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`pacientes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`pacientes` (
+  `dni` CHAR(8) NOT NULL,
+  `contraseña` VARCHAR(30) NOT NULL,
+  `apellidos` VARCHAR(100) NOT NULL,
+  `nombres` VARCHAR(100) NOT NULL,
+  `telefono` CHAR(9) NULL DEFAULT NULL,
+  `correo` VARCHAR(50) NULL DEFAULT NULL,
+  `direccion` VARCHAR(100) NOT NULL,
+  `estado` VARCHAR(15) NOT NULL,
+  `tipo_paciente` VARCHAR(15) NOT NULL,
+  `escuelas_profesionales_id` CHAR(2) NOT NULL,
+  `codigo` VARCHAR(8) NULL DEFAULT NULL,
+  `fecha_nacimiento` DATE NOT NULL,
+  `sexo` VARCHAR(10) NULL DEFAULT NULL,
+  `id_telefono` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`dni`),
+  INDEX `fk_pacientes_escuelas_profesionales1_idx` (`escuelas_profesionales_id` ASC),
+  CONSTRAINT `fk_pacientes_escuelas_profesionales1`
+    FOREIGN KEY (`escuelas_profesionales_id`)
+    REFERENCES `bd_clinica`.`escuelas_profesionales` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`citas`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`citas` (
+  `id` INT(17) NOT NULL AUTO_INCREMENT,
+  `fecha_cita` DATE NOT NULL,
+  `fecha_reserva` DATE NOT NULL,
+  `estado` VARCHAR(25) NOT NULL,
+  `pacientes_dni` CHAR(8) NOT NULL,
+  `bloques_idbloques` VARCHAR(12) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_citas_pacientes1_idx` (`pacientes_dni` ASC),
+  INDEX `fk_citas_bloques1_idx` (`bloques_idbloques` ASC),
+  CONSTRAINT `fk_citas_bloques1`
+    FOREIGN KEY (`bloques_idbloques`)
+    REFERENCES `bd_clinica`.`bloques` (`idbloques`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_citas_pacientes1`
+    FOREIGN KEY (`pacientes_dni`)
+    REFERENCES `bd_clinica`.`pacientes` (`dni`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 2
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`historial_medico`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`historial_medico` (
+  `id_historial_medico` VARCHAR(20) NOT NULL,
+  `cirugias` VARCHAR(2000) NULL DEFAULT NULL,
+  `alergias` VARCHAR(2000) NULL DEFAULT NULL,
+  `antecedentes` VARCHAR(200) NULL DEFAULT NULL,
+  `tipo_sangre` VARCHAR(5) NULL DEFAULT NULL,
+  `pacientes_dni` CHAR(8) NOT NULL,
+  `fecha_apertura` DATE NULL DEFAULT NULL,
+  PRIMARY KEY (`id_historial_medico`),
+  INDEX `fk_historial_medico_pacientes1_idx` (`pacientes_dni` ASC),
+  CONSTRAINT `fk_historial_medico_pacientes1`
+    FOREIGN KEY (`pacientes_dni`)
+    REFERENCES `bd_clinica`.`pacientes` (`dni`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`historiales_medicos_detalles`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`historiales_medicos_detalles` (
+  `id_historial_medico` VARCHAR(20) NOT NULL,
+  `estatura` DOUBLE NOT NULL,
+  `peso` DOUBLE NOT NULL,
+  `presion` VARCHAR(20) NOT NULL,
+  `descripcion` VARCHAR(4000) NOT NULL,
+  `id_cita` INT(17) NOT NULL,
+  `id_historial` VARCHAR(20) NOT NULL,
+  INDEX `fk_historiales_medicos_detalles_historial_medico1_idx` (`id_historial_medico` ASC),
+  INDEX `fk_historiales_medicos_detalles_medicos1_idx` (`descripcion`(767) ASC),
+  INDEX `id_cita` (`id_cita` ASC),
+  INDEX `id_historial_idx` (`id_historial` ASC),
+  CONSTRAINT `id_historial`
+    FOREIGN KEY (`id_historial`)
+    REFERENCES `bd_clinica`.`historial_medico` (`id_historial_medico`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `id_cita`
+    FOREIGN KEY (`id_cita`)
+    REFERENCES `bd_clinica`.`citas` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`migrations`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`migrations` (
+  `migration` VARCHAR(255) CHARACTER SET 'utf8' NOT NULL,
+  `batch` INT(11) NOT NULL)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`password_resets`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`password_resets` (
+  `email` VARCHAR(255) CHARACTER SET 'utf8' NOT NULL,
+  `token` VARCHAR(255) CHARACTER SET 'utf8' NOT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  INDEX `password_resets_email_index` (`email` ASC),
+  INDEX `password_resets_token_index` (`token` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`tipo_sancion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`tipo_sancion` (
+  `id_tipo_sancion` CHAR(10) NOT NULL,
+  `descripcion` VARCHAR(45) NULL DEFAULT NULL,
+  `tiempo` INT(11) NOT NULL,
+  `estado` VARCHAR(12) CHARACTER SET 'utf8' NOT NULL,
+  PRIMARY KEY (`id_tipo_sancion`),
+  INDEX `fk_tipo_sancion1_idx` (`id_tipo_sancion` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`sancion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`sancion` (
+  `id_cita` INT(17) NOT NULL,
+  `id_sancion` CHAR(10) NOT NULL,
+  `fecha_sancion` DATE NOT NULL,
+  INDEX `fk_id_sancion1_idx` (`id_sancion` ASC),
+  INDEX `fk_id_cita1_idx` (`id_cita` ASC),
+  PRIMARY KEY (`id_sancion`, `id_cita`),
+  CONSTRAINT `id_sancion11`
+    FOREIGN KEY (`id_sancion`)
+    REFERENCES `bd_clinica`.`tipo_sancion` (`id_tipo_sancion`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `id_cita11`
+    FOREIGN KEY (`id_cita`)
+    REFERENCES `bd_clinica`.`citas` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `bd_clinica`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_clinica`.`users` (
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `dni` VARCHAR(255) CHARACTER SET 'utf8' NOT NULL,
+  `password` VARCHAR(255) CHARACTER SET 'utf8' NOT NULL,
+  `remember_token` VARCHAR(100) CHARACTER SET 'utf8' NULL DEFAULT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  `tipo` VARCHAR(255) CHARACTER SET 'utf8' NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `users_dni_unique` (`dni` ASC))
+ENGINE = InnoDB
+AUTO_INCREMENT = 9
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

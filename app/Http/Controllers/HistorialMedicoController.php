@@ -40,6 +40,15 @@ class HistorialMedicoController extends Controller
      */
     public function store(Request $request)
     {
+
+      $this->validate($request,[
+        'Id'=>['required','unique:historial_medico','max:20'],
+        'Cirugias'=>['required','max:2000','regex:/^[0-9A-Za-z ]+$/'],
+        'Alergias'=>['required','max:2000','regex:/^[0-9A-Za-z ]+$/'],
+        'Antecedentes'=>['required','max:200','regex:/^[0-9A-Za-z ]+$/'],
+        'Fecha_Apertura'=>['required','date']
+      ]);
+
       $id = $request->input('Id');
       $cirugias = $request->input('Cirugias');
       $alergias = $request->input('Alergias');
@@ -48,13 +57,7 @@ class HistorialMedicoController extends Controller
       $pacientes_dni = $request->input('Pacientes_DNI');
       $fecha_apertura = $request->input('Fecha_Apertura');
 
-      $pacientes = DB::table('pacientes')->get();
-      foreach($pacientes as $patient)
-      {
-        if($pacientes_dni==$patient->dni){
-          $pacientes_dni = $patient->dni;
-        }
-      }
+
 
           DB::table('historial_medico')->insert([
         'id_historial_medico'=> $id,
@@ -63,7 +66,7 @@ class HistorialMedicoController extends Controller
         'antecedentes'=>$antecedentes,
         'tipo_sangre'=>$tipo_sangre,
         'pacientes_dni'=>$pacientes_dni,
-        'fecha_apertura'=>$fecha_apertura,
+        'fecha_apertura'=>$fecha_apertura
           ]);
 
       return redirect('historial_medico');
@@ -77,7 +80,9 @@ class HistorialMedicoController extends Controller
      */
     public function show($id)
     {
-        return $this->index();
+            $historial_medico = DB::table('historial_medico')->where('id_historial_medico',$id)->first();
+            $historial_medico_detalle = DB::table('historiales_medicos_detalles')->get();
+            return view('historial_medico.show',['historial_medico'=>$historial_medico,'historial_medico_detalle'=>$historial_medico_detalle]);
     }
 
     /**
@@ -92,8 +97,8 @@ class HistorialMedicoController extends Controller
 
       $historial_medico = DB::table('historial_medico')->where('id_historial_medico',$id)->first();
 
-            $pacientes = DB::table('pacientes')->get();
-            return view('historial_medico.edit',['historial_medico'=>$historial_medico,'pacientes'=>$pacientes]);
+          $pacientes = DB::table('pacientes')->get();
+          return view('historial_medico.edit',['historial_medico'=>$historial_medico,'pacientes'=>$pacientes]);
 
     }
 
@@ -106,29 +111,31 @@ class HistorialMedicoController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+
+
+      $this->validate($request,[
+        'Cirugias'=>['required','max:2000','regex:/^[0-9A-Za-z ]+$/'],
+        'Alergias'=>['required','max:2000','regex:/^[0-9A-Za-z ]+$/'],
+        'Antecedentes'=>['required','max:200','regex:/^[0-9A-Za-z ]+$/'],
+        'Fecha_Apertura'=>['required','date']
+      ]);
       $cirugias = $request->input('Cirugias');
       $alergias = $request->input('Alergias');
       $antecedentes = $request->input('Antecedentes');
       $tipo_sangre = $request->input('Tipo_Sangre');
-      $pacientes_dni = $request->input('Pacientes_DNI');
       $fecha_apertura = $request->input('Fecha_Apertura');
 
-      $pacientes = DB::table('pacientes')->get();
-      foreach($pacientes as $patient)
-      {
-        if($pacientes_dni==$patient->dni){
-          $pacientes_dni = $patient->dni;
-        }
-      }
-      
+
+
+
       DB::table('historial_medico')->where('id_historial_medico',$id)
         ->update([
           'cirugias'=>$cirugias,
           'alergias'=>$alergias,
           'antecedentes'=>$antecedentes,
           'tipo_sangre'=>$tipo_sangre,
-          'pacientes_dni'=>$pacientes_dni,
-          'fecha_apertura'=>$fecha_apertura,
+          'fecha_apertura'=>$fecha_apertura
       ]);
 
       return redirect('historial_medico');
